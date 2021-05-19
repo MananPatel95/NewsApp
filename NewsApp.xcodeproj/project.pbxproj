@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E84741152654AA2000D075D9 /* Article.swift in Sources */ = {isa = PBXBuildFile; fileRef = E84741142654AA2000D075D9 /* Article.swift */; };
+		E84741172654AA5100D075D9 /* TopicsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E84741162654AA5100D075D9 /* TopicsViewController.swift */; };
 		E877326C26520E3700F9EC18 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E877326B26520E3700F9EC18 /* AppDelegate.swift */; };
 		E877326E26520E3700F9EC18 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E877326D26520E3700F9EC18 /* SceneDelegate.swift */; };
 		E877327026520E3700F9EC18 /* NewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E877326F26520E3700F9EC18 /* NewsViewController.swift */; };
@@ -19,6 +21,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		E84741142654AA2000D075D9 /* Article.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Article.swift; sourceTree = "<group>"; };
+		E84741162654AA5100D075D9 /* TopicsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicsViewController.swift; sourceTree = "<group>"; };
 		E877326826520E3700F9EC18 /* NewsApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NewsApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E877326B26520E3700F9EC18 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E877326D26520E3700F9EC18 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -43,6 +47,40 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E84741102654A9DC00D075D9 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				E877326F26520E3700F9EC18 /* NewsViewController.swift */,
+				E87732832652295B00F9EC18 /* CountryPickerView.swift */,
+				E84741162654AA5100D075D9 /* TopicsViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		E84741112654A9EF00D075D9 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				E87732812652141900F9EC18 /* NewsTableViewCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		E84741122654A9FE00D075D9 /* API */ = {
+			isa = PBXGroup;
+			children = (
+				E877327F26520F3300F9EC18 /* APICaller.swift */,
+			);
+			path = API;
+			sourceTree = "<group>";
+		};
+		E84741132654AA1400D075D9 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				E84741142654AA2000D075D9 /* Article.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		E877325F26520E3700F9EC18 = {
 			isa = PBXGroup;
 			children = (
@@ -62,16 +100,16 @@
 		E877326A26520E3700F9EC18 /* NewsApp */ = {
 			isa = PBXGroup;
 			children = (
+				E84741132654AA1400D075D9 /* Models */,
+				E84741122654A9FE00D075D9 /* API */,
+				E84741112654A9EF00D075D9 /* Cells */,
+				E84741102654A9DC00D075D9 /* Controllers */,
 				E877326B26520E3700F9EC18 /* AppDelegate.swift */,
 				E877326D26520E3700F9EC18 /* SceneDelegate.swift */,
-				E877326F26520E3700F9EC18 /* NewsViewController.swift */,
-				E87732812652141900F9EC18 /* NewsTableViewCell.swift */,
 				E877327126520E3700F9EC18 /* Main.storyboard */,
-				E877327426520E3900F9EC18 /* Assets.xcassets */,
 				E877327626520E3900F9EC18 /* LaunchScreen.storyboard */,
+				E877327426520E3900F9EC18 /* Assets.xcassets */,
 				E877327926520E3900F9EC18 /* Info.plist */,
-				E877327F26520F3300F9EC18 /* APICaller.swift */,
-				E87732832652295B00F9EC18 /* CountryPickerView.swift */,
 			);
 			path = NewsApp;
 			sourceTree = "<group>";
@@ -146,6 +184,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E84741152654AA2000D075D9 /* Article.swift in Sources */,
+				E84741172654AA5100D075D9 /* TopicsViewController.swift in Sources */,
 				E877327026520E3700F9EC18 /* NewsViewController.swift in Sources */,
 				E877326C26520E3700F9EC18 /* AppDelegate.swift in Sources */,
 				E87732822652141900F9EC18 /* NewsTableViewCell.swift in Sources */,

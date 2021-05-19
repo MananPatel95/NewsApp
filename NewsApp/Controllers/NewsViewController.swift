@@ -31,9 +31,15 @@ class NewsViewController: UIViewController, UITableViewDataSource, UITableViewDe
     // Data
     private var viewModels = [NewsTableViewCellViewModel]()
     private var articles = [Article]()
+    private var topic = "" {
+        didSet {
+            fetchTopStoriesWithTopic()
+            setTitle()
+        }
+    }
     private var country = "us" {
         didSet {
-            fetchTopStories(forCountry: country)
+            fetchTopStories()
             setTitle()
         }
     }
@@ -47,7 +53,7 @@ class NewsViewController: UIViewController, UITableViewDataSource, UITableViewDe
         view.backgroundColor = .systemBackground
         
         setTitle()
-        fetchTopStories(forCountry: country)
+        fetchTopStories()
         createSearchBar()
         addRefreshControl()
         
@@ -59,10 +65,14 @@ class NewsViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     //MARK: - Private Funcs
     private func setTitle() {
-        title = "News" + " - " + country.uppercased()
+        self.title = "News" + " - " + country.uppercased()
     }
     
-    @objc private func fetchTopStories(forCountry country: String) {
+    private func setTopicTitle() {
+        self.title = "News" + " - " + country.uppercased() + " (\(topic))"
+    }
+    
+    @objc private func fetchTopStories() {
         APICaller.shared.getTopStories(country: country) { [weak self] data in
             switch data{
             case .success(let articles):
@@ -76,6 +86,32 @@ class NewsViewController: UIViewController, UITableViewDataSource, UITableViewDe
                 
                 DispatchQueue.main.async {
                     self?.tableView.reloadData()
+                    self?.setTitle()
+                    self?.refreshVC.endRefreshing()
+                    self?.searchVC.isActive = false
+                }
+                
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
+    @objc func fetchTopStoriesWithTopic() {
+        APICaller.shared.searchWithTopics(topic: self.topic, country: self.country) { [weak self] data in
+            switch data {
+            case .success(let data):
+                self?.articles = data
+                self?.viewModels = data.compactMap({
+                    NewsTableViewCellViewModel.init(title: $0.title,
+                                                    subtitle: $0.description ?? "",
+                                                    imageURL: URL(string: $0.urlToImage ?? "")
+                    )
+                })
+                
+                DispatchQueue.main.async {
+                    self?.tableView.reloadData()
+                    self?.setTopicTitle()
                     self?.refreshVC.endRefreshing()
                     self?.searchVC.isActive = false
                 }
@@ -91,15 +127,21 @@ class NewsViewController: UIViewController, UITableViewDataSource, UITableViewDe
         searchVC.searchBar.delegate = self
         
         let button = UIBarButtonItem(image: UIImage.init(systemName: "map"), style: .plain, target: self, action: #selector(presentCountryPicker))
-        navigationItem.rightBarButtonItem = button
+        let button2 = UIBarButtonItem(image: UIImage.init(systemName: "list.bullet.rectangle"), style: .plain, target: self, action: #selector(presentTopics))
+        navigationItem.rightBarButtonItems = [button, button2]
     }
     
     @objc func presentCountryPicker() {
-        print("present picker")
         let countryPickerVC = CountryPickerView()
         countryPickerVC.delegate = self
         present(countryPickerVC, animated: true, completion: nil)
         
+    }
+    
+    @objc func presentTopics() {
+        let topicsVC = TopicsViewController()
+        topicsVC.delegate = self
+        present(topicsVC, animated: true, completion: nil)
     }
     
     private func addRefreshControl() {
@@ -112,6 +154,11 @@ class NewsViewController: UIViewController, UITableViewDataSource, UITableViewDe
     // Set the country with a 2 letter code, e.g. "us", "ca", or "jp"
     func setCountry(forCountry country: String) {
         self.country = country
+    }
+    
+    func setTopic(forTopic topic: String){
+        print("set topic \(topic)")
+        self.topic = topic
     }
     
     
@@ -162,6 +209,7 @@ class NewsViewController: UIViewController, UITableViewDataSource, UITableViewDe
                 
                 DispatchQueue.main.async {
                     self?.tableView.reloadData()
+                    self?.title = "Results for:"
                     self?.searchVC.dismiss(animated: true, completion: nil)
                 }
                 
